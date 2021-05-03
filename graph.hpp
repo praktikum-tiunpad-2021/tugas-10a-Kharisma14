@@ -3,6 +3,8 @@
 #include <functional>
 #include <unordered_map>
 #include <unordered_set>
+#include <stack>
+#include <queue>
 
 namespace strukdat {
 
@@ -49,7 +51,7 @@ class graph {
   }
 
   void remove_vertex(const VertexType &val) {
-    // TODO: Implementasikan!
+    _adj_list.erase(val);
   }
 
   /**
@@ -59,7 +61,19 @@ class graph {
    * @param val2 nilai vertex 2
    */
   void add_edge(const VertexType &val1, const VertexType val2) {
-    // TODO: Implementasikan!
+    list_type &adj1 = _adj_list.at(val1),
+              &adj2 = _adj_list.at(val2);
+    auto it = std::find(adj1.begin(), adj1.end(), val2);
+
+    if(it == adj1.end()){
+      adj1.insert(val2);
+      std::sort(adj1.begin(), adj1.end());
+    }
+    it = std::find(adj2.begin(), adj2.end(), val1);
+    if(it == adj2.end()){
+      adj2.insert(val1);
+      std::sort(adj2.begin(), adj2.end());
+    }
   }
 
   /**
@@ -68,7 +82,17 @@ class graph {
    * @param val nilai dari vertex yang akan dihapus
    */
   void remove_edge(const VertexType &val1, const VertexType &val2) {
-    // TODO: Implementasikan!
+    list_type &adj1 = _adj_list.at(val1),
+              &adj2 = _adj_list.at(val2);
+    auto it = std::find(adj1.begin(), adj1.end(), val2);
+
+    if(it != adj1.end()){
+      adj1.erase(it);
+    }
+    it = std::find(adj2.begin(), adj2.end(), val1);
+    if(it != adj2.end()){
+      adj2.erase(it);
+    }
   }
 
   /**
@@ -80,7 +104,7 @@ class graph {
    * @return jumlah node pada graph
    */
   size_t order() const {
-    // TODO: Implementasikan!
+    return _adj_list.size();
   }
 
   /**
@@ -92,7 +116,10 @@ class graph {
    * @return vertex-vertex saling bertetangga
    */
   bool is_edge(const VertexType &val1, const VertexType &val2) const {
-    // TODO: Implementasikan!
+    if(_adj_list.at(val1).find(val2) == _adj_list.at(val1).end() || _adj_list.at(val2).find(val1) == _adj_list.at(val2).end()){
+      return false;
+    }
+    return true;
   }
 
   /**
