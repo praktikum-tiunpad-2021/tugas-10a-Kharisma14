@@ -65,13 +65,11 @@ class graph {
     list_type &adj1 = _adj_list.at(val1),
               &adj2 = _adj_list.at(val2);
     
-    auto it = adj1.find(val2);
-    if(it == adj1.end()){
+    if(adj1.find(val2) == adj1.end()){
       adj1.insert(val2);
     }
     
-    it = adj2.find(val1);
-    if(it == adj2.end()){
+    if(adj2.find(val1) == adj2.end()){
       adj2.insert(val1);
     }
   }
@@ -85,14 +83,12 @@ class graph {
     list_type &adj1 = _adj_list.at(val1), 
               &adj2 = _adj_list.at(val2);
     
-    auto it = adj1.find(val2);
-    if(it != adj1.end()){
-      adj1.erase(it);
+    if(adj1.find(val2) != adj1.end()){
+      adj1.erase(adj1.find(val2));
     }
 
-    it = adj2.find(val1);
-    if(it != adj2.end()){
-      adj2.erase(it);
+    if(adj2.find(val1) != adj2.end()){
+      adj2.erase(adj2.find(val1));
     }
   }
 
